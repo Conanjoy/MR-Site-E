@@ -1399,7 +1399,7 @@ def farmer():
         print(e, '\n') if ARGS.error else print('\n')
         ERROR = True
         browser.quit()
-        #checkInternetConnection()
+        checkInternetConnection()
         farmer()
     else:
         if ARGS.telegram or ARGS.discord:
