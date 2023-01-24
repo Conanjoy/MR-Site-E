@@ -24,7 +24,6 @@ RUN apt-get update && apt-get install -y \
   gtk2-engines-pixbuf \
 && rm -rf /var/lib/apt/lists/*
 
-RUN setcap cap_net_raw+ep /bin/ping
 
 # Download and install Chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \ 
