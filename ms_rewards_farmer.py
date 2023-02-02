@@ -1792,6 +1792,9 @@ def farmer():
         #checkInternetConnection()
         farmer()
     else:
+        if ARGS.telegram:
+            message = createMessage()
+            sendReportToMessenger(message)
         FINISHED_ACCOUNTS.clear()
 
 def main():
