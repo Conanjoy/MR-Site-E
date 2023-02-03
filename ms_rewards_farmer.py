@@ -13,7 +13,6 @@ import traceback
 import apprise
 import logging
 from notifiers import get_notifier
-from keep_alive import keep_alive
 
 import ipapi
 import requests
@@ -42,7 +41,6 @@ from email.message import EmailMessage
 import ssl
 import smtplib
 
-keep_alive()
 
 def init_logging(log_level="INFO"):
     logging.basicConfig(
