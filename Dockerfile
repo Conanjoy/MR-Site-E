@@ -1,8 +1,8 @@
-FROM ubuntu:22.04
+FROM debian:buster-slim
 
 # Set default environment variables
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ="Asia/Singapore"
+ENV TZ="America/New_York"
 
 # Create working directory and relevant dirs
 WORKDIR /app
