@@ -11,7 +11,7 @@ RUN chmod 777 /app
 # Install deps from APT
 RUN apt-get update && apt-get install -y \
   procps \
-  iputils-ping \
+  inetutils-ping \
   cron \
   vim \
   tzdata \
