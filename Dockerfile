@@ -12,7 +12,6 @@ RUN chmod 777 /app
 RUN apt-get update && apt-get install -y \
   procps \
   iputils-ping \
-  gunicorn \
   cron \
   vim \
   tzdata \
