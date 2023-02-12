@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM python:3.10-slim-bullseye
 
 # Set default environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -12,6 +12,7 @@ RUN chmod 777 /app
 RUN apt-get update && apt-get install -y \
   procps \
   inetutils-ping \
+  gunicorn \
   cron \
   vim \
   tzdata \
@@ -53,3 +54,4 @@ RUN chmod +x entrypoint.sh
 
 CMD ["bash", "entrypoint.sh"]
 
+#END
