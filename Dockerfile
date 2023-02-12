@@ -2,13 +2,15 @@ FROM ubuntu:22.04
 
 # Set default environment variables
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ="America/New_York"
+ENV TZ="Asia/Singapore"
 
 # Create working directory and relevant dirs
 WORKDIR /app
+RUN chmod 777 /app
 
 # Install deps from APT
 RUN apt-get update && apt-get install -y \
+  procps \
   iputils-ping \
   gunicorn \
   cron \
@@ -25,7 +27,12 @@ RUN apt-get update && apt-get install -y \
   xfonts-base \
   xfonts-scalable \
   gtk2-engines-pixbuf \
-&& rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+  && which cron \
+  && rm -rf /etc/cron.*/*
+
+RUN ln -fs /usr/share/zoneinfo/$TZ /etc/localtime \
+    && dpkg-reconfigure -f noninteractive tzdata
 
 
 # Download and install Chrome
@@ -33,21 +40,25 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
 RUN apt-get update && apt-get -y install google-chrome-stable && rm -rf /var/lib/apt/lists/*
 
-# Install bot Python deps
-ADD ./requirements.txt .
-RUN pip3 install -r ./requirements.txt
-
 
 # Add often-changed files in order to cache above
-ADD ./ms_rewards_farmer.py .
-ADD ./entrypoint.sh .
-ADD ./keep_alive.py .
-ADD ./accounts.json .
-ADD ./alive.py .
+COPY . .
 
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+COPY crontab /etc/cron.d/crontab
+
+RUN chmod 0644 /etc/cron.d/crontab
+
+RUN crontab /etc/cron.d/crontab
 
 # Make the entrypoint executable
 RUN chmod +x entrypoint.sh
 
-# Set the entrypoint to our entrypoint.sh                                                                                                                     
-ENTRYPOINT ["/app/entrypoint.sh"] 
+# Set the entrypoint to our entrypoint.sh
+
+#ENTRYPOINT ./app/entrypoint.sh
+
+CMD ["bash", "entrypoint.sh"]
+
+#CMD ["cron","-f", "-L", "2"]
