@@ -17,8 +17,7 @@ RUN apk update && apk add --no-cache bash \
   chromium \
   chromium-chromedriver
   
-RUN ln -fs /usr/share/zoneinfo/$TZ /etc/localtime \
-    && dpkg-reconfigure -f noninteractive tzdata
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
 
 RUN pip install -U pip
 
