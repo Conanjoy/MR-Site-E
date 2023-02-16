@@ -1,10 +1,22 @@
-from flask import Flask
+import sys
 
-app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return "App is Running..."
+class App:
+    def __init__(self, scope):
+        assert scope["type"] == "http"
+        self.scope = scope
 
-if __name__ == "__main__":
-    app.run()
+    async def __call__(self, receive, send):
+        await send(
+            {
+                "type": "http.response.start",
+                "status": 200,
+                "headers": [[b"content-type", b"text/plain"]],
+            }
+        )
+        message = f"App is Running..."
+        )
+        await send({"type": "http.response.body", "body": message})
+
+
+app = App
