@@ -15,7 +15,6 @@ class App:
             }
         )
         message = f"App is Running..."
-        )
         await send({"type": "http.response.body", "body": message})
 
 
