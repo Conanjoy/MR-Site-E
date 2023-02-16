@@ -9,6 +9,8 @@ WORKDIR /app
 RUN chmod 777 /app
 
 RUN apk update && apk add --no-cache bash \
+  curl \
+  coreutils \
   gtk+2.0 \
   gdk-pixbuf \
   tzdata \
